@@ -1,0 +1,16 @@
+name: Team guide CI
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Test topic files
+        run: bash scripts/check-feature-txt.sh
+      - name: Build guide bundle
+        run: |
+          mkdir -p dist
+          tar -czf dist/team-guide.tgz *.txt
+          tar -tzf dist/team-guide.tgz
